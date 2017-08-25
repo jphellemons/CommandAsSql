@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/jphellemons/CommandAsSql/</PackageProjectUrl>
+    <PackageIconUrl>https://png.icons8.com/win8/1600/107C10/database</PackageIconUrl>
+    <RepositoryUrl>https://github.com/jphellemons/CommandAsSql/</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>SqlCommand String ToString SqlClient</PackageTags>
+    <Description>Displays a SqlCommand as a full SQL string with all parameters inline. Makes it easy to debug (copy paste to db tool). Please submit pullrequests on GitHub</Description>
+    <Authors>jphellemons, flapper</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
