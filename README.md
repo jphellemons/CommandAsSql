@@ -14,3 +14,5 @@ Please send pull-requests.
 
 
 Can be found on Nuget: https://www.nuget.org/packages/CommandAsSql/1.0.0
+
+![database icon](https://png.icons8.com/win8/1600/107C10/database)
