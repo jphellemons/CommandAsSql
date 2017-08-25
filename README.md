@@ -4,9 +4,13 @@
 It's based on some code from StackOverflow and enhanced for table value parameters.
 Please send pull-requests.
 
-Install in packagemanager:
- Install-Package CommandAsSql -Version 1.0.0
-Install from CLI:
- dotnet add package CommandAsSql --version 1.0.0
- 
+## Install in packagemanager:
+
+> Install-Package CommandAsSql -Version 1.0.0
+
+## Install from CLI:
+
+> dotnet add package CommandAsSql --version 1.0.0
+
+
 Can be found on Nuget: https://www.nuget.org/packages/CommandAsSql/1.0.0
