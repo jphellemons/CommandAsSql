@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace CommandAsSql
 {
-    static class ExtensionMethods
+    public static class ExtensionMethods
     {
         public static String ParameterValueForSQL(this SqlParameter sp)
         {
