@@ -5,11 +5,19 @@ using System.Data.SqlClient;
 
 namespace CommandAsSql
 {
+    /// <summary>
+    /// Extension method to parse a SqlCommand as string with filled SqlParameters. Makes it easy to paste the string in a Database Management tool to debug and profile etc.
+    /// </summary>
     public static class ExtensionMethods
     {
-        public static String ParameterValueForSQL(this SqlParameter sp)
+        /// <summary>
+        /// Turns a parameter object to string
+        /// </summary>
+        /// <param name="sp">SqlParameter</param>
+        /// <returns></returns>
+        public static string ParameterValueForSQL(this SqlParameter sp)
         {
-            String retval = "";
+            string retval = string.Empty;
 
             switch (sp.SqlDbType)
             {
@@ -25,7 +33,7 @@ namespace CommandAsSql
                 case SqlDbType.DateTime:
                 case SqlDbType.DateTime2:
                 case SqlDbType.DateTimeOffset:
-                    retval = "'" + sp.Value.ToString().Replace("'", "''") + "'";
+                    retval = $"'{sp.Value.ToString().Replace("'", "''")}'";
                     break;
 
                 case SqlDbType.Bit:
@@ -35,11 +43,11 @@ namespace CommandAsSql
                     var sb = new System.Text.StringBuilder();
                     var dt = (DataTable)sp.Value;
 
-                    sb.AppendLine("declare " + sp.ParameterName + " " + sp.TypeName);
+                    sb.Append("declare ").Append(sp.ParameterName).Append(" ").AppendLine(sp.TypeName);
 
                     foreach (DataRow dr in dt.Rows)
                     {
-                        sb.Append("insert " + sp.ParameterName + " values (");
+                        sb.Append("insert ").Append(sp.ParameterName).Append(" values (");
 
                         for (int colIndex = 0; colIndex < dt.Columns.Count; colIndex++)
                         {
@@ -49,14 +57,10 @@ namespace CommandAsSql
                                     sb.Append(Convert.ToInt32(dr[colIndex]));
                                     break;
                                 case TypeCode.String:
-                                    sb.Append("'");
-                                    sb.Append(dr[colIndex]);
-                                    sb.Append("'");
+                                    sb.Append("'").Append(dr[colIndex]).Append("'");
                                     break;
                                 case TypeCode.DateTime:
-                                    sb.Append("'");
-                                    sb.Append(Convert.ToDateTime(dr[colIndex]).ToString("yyyy-MM-dd HH:mm"));
-                                    sb.Append("'");
+                                    sb.Append("'").Append(Convert.ToDateTime(dr[colIndex]).ToString("yyyy-MM-dd HH:mm")).Append("'");
                                     break;
                                 default:
                                     sb.Append(dr[colIndex]); break;
@@ -99,12 +103,12 @@ namespace CommandAsSql
         /// </summary>
         /// <param name="sc">The SqlCommand you want parsed as a full SQL string</param>
         /// <returns></returns>
-        public static String CommandAsSql(this SqlCommand sc)
+        public static string CommandAsSql(this SqlCommand sc)
         {
             var sql = new System.Text.StringBuilder();
-            Boolean FirstParam = true;
+            bool FirstParam = true;
 
-            sql.AppendLine("use " + sc.Connection.Database + ";");
+            sql.Append("use ").Append(sc.Connection.Database).AppendLine(";");
 
             foreach (SqlParameter strucParam in sc.Parameters.GetStructured())
                 sql.AppendLine(ParameterValueForSQL(strucParam));
@@ -118,13 +122,13 @@ namespace CommandAsSql
                     {
                         if ((sp.Direction == ParameterDirection.InputOutput) || (sp.Direction == ParameterDirection.Output))
                         {
-                            sql.Append("declare " + sp.ParameterName + "\t" + sp.SqlDbType.ToString() + "\t= ");
+                            sql.Append("declare ").Append(sp.ParameterName).Append("\t").Append(sp.SqlDbType.ToString()).Append("\t= ");
 
-                            sql.AppendLine(((sp.Direction == ParameterDirection.Output) ? "null" : sp.ParameterValueForSQL()) + ";");
+                            sql.Append((sp.Direction == ParameterDirection.Output) ? "null" : sp.ParameterValueForSQL()).AppendLine(";");
                         }
                     }
 
-                    sql.AppendLine("exec [" + sc.CommandText + "]");
+                    sql.Append("exec [").Append(sc.CommandText).AppendLine("]");
 
                     foreach (SqlParameter sp in sc.Parameters)
                     {
@@ -137,12 +141,14 @@ namespace CommandAsSql
                             if (sp.Direction == ParameterDirection.Input)
                             {
                                 if (sp.SqlDbType != SqlDbType.Structured)
-                                    sql.AppendLine(sp.ParameterName + " = " + sp.ParameterValueForSQL());
+                                    sql.Append(sp.ParameterName).Append(" = ").AppendLine(sp.ParameterValueForSQL());
                                 else
-                                    sql.AppendLine(sp.ParameterName + " = " + sp.ParameterName);
+                                    sql.Append(sp.ParameterName).Append(" = ").AppendLine(sp.ParameterName);
                             }
                             else
-                                sql.AppendLine(sp.ParameterName + " = " + sp.ParameterName + " output");
+                            {
+                                sql.Append(sp.ParameterName).Append(" = ").Append(sp.ParameterName).AppendLine(" output");
+                            }
                         }
                     }
                     sql.AppendLine(";");
@@ -153,7 +159,7 @@ namespace CommandAsSql
                     {
                         if ((sp.Direction == ParameterDirection.InputOutput) || (sp.Direction == ParameterDirection.Output))
                         {
-                            sql.AppendLine("select '" + sp.ParameterName + "' = convert(varchar, " + sp.ParameterName + ");");
+                            sql.Append("select '").Append(sp.ParameterName).Append("' = convert(varchar, ").Append(sp.ParameterName).AppendLine(");");
                         }
                     }
                     break;
@@ -165,14 +171,14 @@ namespace CommandAsSql
             return sql.ToString();
         }
 
-        public static Boolean ToBooleanOrDefault(this String s, Boolean Default)
+        public static bool ToBooleanOrDefault(this string s, bool Default)
         {
-            return ToBooleanOrDefault((Object)s, Default);
+            return ToBooleanOrDefault((object)s, Default);
         }
 
-        public static Boolean ToBooleanOrDefault(this Object o, Boolean Default)
+        public static bool ToBooleanOrDefault(this object o, bool Default)
         {
-            Boolean ReturnVal = Default;
+            bool ReturnVal = Default;
             try
             {
                 if (o != null)
@@ -191,7 +197,7 @@ namespace CommandAsSql
                             ReturnVal = false;
                             break;
                         default:
-                            ReturnVal = Boolean.Parse(o.ToString());
+                            ReturnVal = bool.Parse(o.ToString());
                             break;
                     }
                 }
