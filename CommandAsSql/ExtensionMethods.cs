@@ -66,8 +66,8 @@ namespace CommandAsSql
         {
             object paramValue = param.Value; //assuming param isn't null
 
-            if (paramValue == null)
-                return "NULL";
+            if (paramValue == null) //TODO: should probably use DBNull.Value instead or in combination with this
+                return "NULL"; //TODO: naive code, won't work as is, need to replace later on = NULL with IS NULL at non-Update queries
 
             switch (param.SqlDbType)
             {
