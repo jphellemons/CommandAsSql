@@ -2,13 +2,13 @@ language: csharp
 solution: CommandAsSql.sln
 install:
   - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - mono nuget restore CommandAsSql.sln
+  - nuget restore CommandAsSql.sln
   - mono nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release CommandAsSql.sln
   - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./XUnitTestCommandAsSql/bin/Release/netcoreapp2.1/XUnitTestCommandAsSql.dll"
   - msbuild /t:pack /p:Configuration=Release
-  - mono nuget.exe setApiKey $NUGET_API_KEY -Source $NUGET_SOURCE -Verbosity quiet
-  - mono nuget.exe push CommandAsSql.*.nupkg -Source $NUGET_SOURCE
+  - mono nuget setApiKey $NUGET_API_KEY -Source $NUGET_SOURCE -Verbosity quiet
+  - mono nuget push CommandAsSql.*.nupkg -Source $NUGET_SOURCE
   
 #https://stackoverflow.com/a/48919604/169714

@@ -12,12 +12,23 @@ namespace CommandAsSql
     public static class ExtensionMethods
     {
         #region Boolean Helpers
-
+        /// <summary>
+        /// extension method overload for a string 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public static bool ToBooleanOrDefault(this string s, bool defaultValue)
         {
             return ToBooleanOrDefault((object)s, defaultValue);
         }
 
+        /// <summary>
+        /// extension method to get a bool value from an object
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public static bool ToBooleanOrDefault(this object o, bool defaultValue)
         {
             bool result = defaultValue;
