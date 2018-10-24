@@ -11,19 +11,19 @@ namespace CommandAsSql
     /// </summary>
     public static class ExtensionMethods
     {
-
         #region Boolean Helpers
 
-        public static Boolean ToBooleanOrDefault(this string s, bool defaultValue)
+        public static bool ToBooleanOrDefault(this string s, bool defaultValue)
         {
             return ToBooleanOrDefault((object)s, defaultValue);
         }
 
-        public static Boolean ToBooleanOrDefault(this object o, bool defaultValue)
+        public static bool ToBooleanOrDefault(this object o, bool defaultValue)
         {
             bool result = defaultValue;
 
             if (o != null)
+            {
                 try
                 {
                     switch (o.ToString().ToLower())
@@ -49,6 +49,7 @@ namespace CommandAsSql
                 catch
                 {
                 }
+            }
 
             return result;
         }
@@ -62,7 +63,7 @@ namespace CommandAsSql
         /// </summary>
         /// <param name="param">SqlParameter</param>
         /// <returns></returns>
-        public static String ParameterValueForSQL(this SqlParameter param)
+        public static string ParameterValueForSQL(this SqlParameter param)
         {
             object paramValue = param.Value; //assuming param isn't null
 
@@ -83,8 +84,7 @@ namespace CommandAsSql
                 case SqlDbType.DateTime:
                 case SqlDbType.DateTime2:
                 case SqlDbType.DateTimeOffset:
-                    //return "'" + paramValue.ToString().Replace("'", "''") + "'";
-                    return $"'{paramValue.ToString().Replace("'", "''")}'"; //C# 6 syntax
+                    return $"'{paramValue.ToString().Replace("'", "''")}'";
 
                 case SqlDbType.Bit:
                     return (paramValue.ToBooleanOrDefault(false)) ? "1" : "0";
@@ -96,7 +96,7 @@ namespace CommandAsSql
                     sb.Append("declare ").Append(param.ParameterName).Append(" ").AppendLine(param.TypeName);
 
                     foreach (DataRow dr in dt.Rows)
-                    {                        
+                    {
                         sb.Append("insert ").Append(param.ParameterName).Append(" values (");
 
                         for (int colIndex = 0; colIndex < dt.Columns.Count; colIndex++)
@@ -141,8 +141,10 @@ namespace CommandAsSql
         {
             List<SqlParameter> filtered = new List<SqlParameter>();
             foreach (SqlParameter p in paramCollection)
+            {
                 if (p.SqlDbType == SqlDbType.Structured)
                     filtered.Add(p);
+            }
 
             return filtered;
         }
@@ -158,7 +160,8 @@ namespace CommandAsSql
         {
             var sql = new System.Text.StringBuilder();
 
-            sql.Append("use ").Append(command.Connection.Database).AppendLine(";");
+            if (command.Connection != null)
+                sql.Append("use ").Append(command.Connection.Database).AppendLine(";");
 
             foreach (SqlParameter strucParam in command.Parameters.GetStructured())
                 sql.AppendLine(strucParam.ParameterValueForSQL());
@@ -214,12 +217,16 @@ namespace CommandAsSql
                         FirstParam = false;
 
                     if (param.Direction == ParameterDirection.Input)
+                    {
                         if (param.SqlDbType != SqlDbType.Structured)
                             sql.Append(param.ParameterName).Append(" = ").AppendLine(param.ParameterValueForSQL());
                         else
                             sql.Append(param.ParameterName).Append(" = ").AppendLine(param.ParameterName);
+                    }
                     else
+                    {
                         sql.Append(param.ParameterName).Append(" = ").Append(param.ParameterName).AppendLine(" output");
+                    }
                 }
             }
             sql.AppendLine(";");
@@ -232,6 +239,5 @@ namespace CommandAsSql
                     sql.Append("select '").Append(sp.ParameterName).Append("' = convert(varchar, ").Append(sp.ParameterName).AppendLine(");");
             }
         }
-
     }
 }
