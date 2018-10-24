@@ -1,5 +1,5 @@
 # CommandAsSql 
-[![Build Status](https://travis-ci.com/jphellemons/CommandAsSql.svg?branch=master)](https://travis-ci.com/jphellemons/CommandAsSql)
+[![Build status](https://ci.appveyor.com/api/projects/status/box9pmdwhj2srcoa?svg=true)](https://ci.appveyor.com/project/jphellemons/commandassql)
 
 .Net standard 2.0 Nuget package. Extension method for SqlCommand to display all parameters as inline SQL. Output is a string which can be copy pasted in a DB management tool.
 It's based on some code from StackOverflow and enhanced for table value parameters.
