@@ -26,11 +26,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="readme.md" Pack="true" PackagePath="\"/>
-		<None Include="icon.png" Pack="true" PackagePath="\"/>
+		<None Include="readme.md" Pack="true" PackagePath="\" />
+		<None Include="icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 </Project>

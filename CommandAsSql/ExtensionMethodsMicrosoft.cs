@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Text;
+using Microsoft.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Text;
+using System.Globalization;
 
-namespace CommandAsSql.System
+namespace CommandAsSql.Microsoft
 {
     /// <summary>
     /// Extension method to parse a SqlCommand as string with filled SqlParameters. Makes it easy to paste the string in a Database Management tool to debug and profile etc.
