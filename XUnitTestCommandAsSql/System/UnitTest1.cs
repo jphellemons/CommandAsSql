@@ -6,7 +6,7 @@ using Xunit;
 /// <summary>
 /// Unit test for the CommandAsSql lib
 /// </summary>
-namespace XUnitTestCommandAsSql
+namespace XUnitTestCommandAsSql.System
 {
     public class UnitTest1
     {
