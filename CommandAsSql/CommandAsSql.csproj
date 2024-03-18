@@ -10,15 +10,14 @@
 		<PackageTags>SqlCommand String ToString SqlClient</PackageTags>
 		<Description>Displays a SqlCommand as a full SQL string with all parameters inline. Makes it easy to debug (copy paste to db tool). Please submit pull requests on GitHub.</Description>
 		<Authors>jphellemons, flapper</Authors>
-		<Version>1.0.10</Version>
+		<Version>1.1.0-alpha.3</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageReleaseNotes>
-			1.0.10 included icon and changed ref to license and added readme.md to package (for nuget.org)
-			1.0.9 added readme.md in package
-			1.0.8 changed github action and upgraded sqlclient dependency
-			1.0.3 Added the MIT license to both the nuget and the github repo
-		</PackageReleaseNotes>
+		<PackageReleaseNotes>1.1.0 - Added support for Microsoft.Data.SqlClient
+1.0.10 - Included icon and changed ref to license and added readme.md to package (for nuget.org)
+1.0.9 - Added readme.md in package
+1.0.8 - Changed github action and upgraded sqlclient dependency
+1.0.3 - Added the MIT license to both the nuget and the github repo	</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
