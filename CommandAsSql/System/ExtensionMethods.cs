@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CommandAsSql
+namespace CommandAsSql.System
 {
     /// <summary>
     /// Extension method to parse a SqlCommand as string with filled SqlParameters. Makes it easy to paste the string in a Database Management tool to debug and profile etc.
@@ -101,7 +103,7 @@ namespace CommandAsSql
                     return (paramValue.ToBooleanOrDefault(false)) ? "1" : "0";
 
                 case SqlDbType.Structured:
-                    var sb = new System.Text.StringBuilder();
+                    var sb = new StringBuilder();
                     var dt = (DataTable)paramValue;
 
                     sb.Append("declare ").Append(param.ParameterName).Append(" ").AppendLine(param.TypeName);
@@ -141,7 +143,7 @@ namespace CommandAsSql
 
                 case SqlDbType.Decimal:
                 case SqlDbType.Float:
-                    return ((double)paramValue).ToString(System.Globalization.CultureInfo.InvariantCulture).Replace("'", "''");
+                    return ((double)paramValue).ToString(CultureInfo.InvariantCulture).Replace("'", "''");
 
                 default:
                     return paramValue.ToString().Replace("'", "''");
@@ -169,7 +171,7 @@ namespace CommandAsSql
         /// <returns></returns>
         public static string CommandAsSql(this SqlCommand command)
         {
-            var sql = new System.Text.StringBuilder();
+            var sql = new StringBuilder();
 
             if (command.Connection != null)
                 sql.Append("use ").Append(command.Connection.Database).AppendLine(";");
@@ -191,7 +193,7 @@ namespace CommandAsSql
             return sql.ToString();
         }
 
-        private static void CommandAsSql_Text(this SqlCommand command, System.Text.StringBuilder sql)
+        private static void CommandAsSql_Text(this SqlCommand command, StringBuilder sql)
         {
             string query = command.CommandText;
 
@@ -201,7 +203,7 @@ namespace CommandAsSql
             sql.AppendLine(query);
         }
 
-        private static void CommandAsSql_StoredProcedure(this SqlCommand command, System.Text.StringBuilder sql)
+        private static void CommandAsSql_StoredProcedure(this SqlCommand command, StringBuilder sql)
         {
             sql.AppendLine("declare @return_value int;");
 
