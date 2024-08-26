@@ -24,4 +24,4 @@ Can be found on Nuget: https://www.nuget.org/packages/CommandAsSql/
 Most code is from Flapper https://stackoverflow.com/users/391383/flapper
 and his StackOverflow answer: https://stackoverflow.com/a/4146573/169714
 
-![database icon](CommandAsSql/icon.png)
+![database icon](icon.png)

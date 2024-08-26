@@ -3,6 +3,7 @@
 /// </summary>
 namespace XUnitTestCommandAsSql
 {
+    using System;
     using System.Data.SqlClient;
     using CommandAsSql;
     using Xunit;
@@ -21,7 +22,7 @@ namespace XUnitTestCommandAsSql
             sc.Parameters.AddWithValue("@id", 1); // if you forget the @ here, the test fails. Give your thoughts about this in the GitHub issues section please.
 
             // act
-            var c = sc.CommandAsSql().Replace("\r\n", string.Empty); // not too happy about removing the newline
+            var c = sc.CommandAsSql().Replace(Environment.NewLine, string.Empty); // not too happy about removing the newline
 
             // assert
             Assert.Equal(Expected, c);
@@ -36,7 +37,7 @@ namespace XUnitTestCommandAsSql
             sc.Parameters.AddWithValue("@name", "myname"); // if you forget the @ here, the test fails. Give your thoughts about this in the GitHub issues section please.
 
             // act
-            var c = sc.CommandAsSql().Replace("\r\n", string.Empty); // not too happy about removing the newline
+            var c = sc.CommandAsSql().Replace(Environment.NewLine, string.Empty); // not too happy about removing the newline
 
             // assert
             Assert.Equal(Expected, c);
