@@ -1,13 +1,13 @@
+using System;
+using System.Data.SqlClient;
+using CommandAsSql.System;
+using Xunit;
+
 /// <summary>
 /// Unit test for the CommandAsSql lib
 /// </summary>
-namespace XUnitTestCommandAsSql
+namespace XUnitTestCommandAsSql.System
 {
-    using System;
-    using System.Data.SqlClient;
-    using CommandAsSql;
-    using Xunit;
-
     public class UnitTest1
     {
         /// <summary>
